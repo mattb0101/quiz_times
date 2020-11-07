@@ -2,9 +2,11 @@ import os
 from datetime import datetime
 from flask import Flask, flash, redirect, render_template, request, session, url_for
 from flask_pymongo import PyMongo
+from bson.objectid import ObjectId
 from werkzeug.security import generate_password_hash, check_password_hash
 if os.path.exists("env.py"):
     import env
+
 
 app = Flask(__name__)
 
@@ -17,7 +19,7 @@ mongo = PyMongo(app)
 
 @app.route("/")
 def start():
-    return render_template('register.html')
+    return render_template('index.html')
 
 
 @app.route("/register", methods=["GET", "POST"])
@@ -45,7 +47,7 @@ def register():
     return render_template("register.html")
 
 
-@app.route("/index/<team_name>")
+@app.route("/index/<team_name>", methods=["GET", "POST"])
 def index(team_name):
     # grab the session user's username 
     team_name = mongo.db.users.find_one(
@@ -57,6 +59,13 @@ def index(team_name):
     return redirect(url_for('register'))
 
 
+@app.route("/roundone")
+def roundone():
+    questions = list(mongo.db.questions.find())
+    return render_template("round_one.html", questions=questions)
+
 
 if __name__ =="__main__":
-    app.run(host=os.getenv("IP", "0.0.0.0"), port=int(os.getenv("PORT", "5000")), debug=True)
+    app.run(host=os.environ.get("IP"),
+            port=int(os.environ.get("PORT")),
+            debug=True)

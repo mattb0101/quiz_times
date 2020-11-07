@@ -5,7 +5,7 @@
 	<h3 class="center-align">Who's Playing?</h3>
 	
 	<div class="row">
-		<form class="col s12" action="POST" action="{{ url_for('register') }}">
+		<form class="col s12" method="POST" action="{{ url_for('register') }}">
 			<div class="card-panel">
 				<div class="row">
 					<div class="input-field col s12">
@@ -35,7 +35,7 @@
 					</div>
 				</div>
 				<div class="row">
-					<button class="col btn s12 center-align" type="submit">Get Started! <i class="fas fa-share-square"></i>
+					<button class="col btn s12" type="submit">Get Started! <i class="fas fa-share-square"></i>
 			            </button>
 				</div>
 			</div>
